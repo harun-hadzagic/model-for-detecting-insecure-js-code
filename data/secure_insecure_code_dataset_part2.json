@@ -1,0 +1,3502 @@
+[
+  {
+    "id": 1001,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1001;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1002,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1001.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1003,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1003;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1004,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1003));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1005,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1005)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1006,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1005])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1007,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1007 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1008,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1007) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1009,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1009\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1010,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1009\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1011,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1011;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1012,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1011.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1013,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1013;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1014,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1013));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1015,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1015)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1016,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1015])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1017,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1017 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1018,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1017) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1019,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1019\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1020,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1019\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1021,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1021;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1022,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1021.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1023,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1023;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1024,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1023));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1025,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1025)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1026,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1025])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1027,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1027 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1028,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1027) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1029,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1029\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1030,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1029\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1031,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1031;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1032,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1031.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1033,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1033;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1034,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1033));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1035,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1035)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1036,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1035])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1037,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1037 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1038,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1037) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1039,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1039\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1040,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1039\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1041,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1041;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1042,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1041.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1043,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1043;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1044,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1043));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1045,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1045)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1046,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1045])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1047,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1047 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1048,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1047) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1049,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1049\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1050,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1049\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1051,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1051;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1052,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1051.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1053,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1053;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1054,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1053));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1055,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1055)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1056,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1055])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1057,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1057 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1058,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1057) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1059,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1059\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1060,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1059\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1061,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1061;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1062,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1061.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1063,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1063;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1064,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1063));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1065,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1065)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1066,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1065])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1067,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1067 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1068,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1067) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1069,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1069\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1070,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1069\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1071,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1071;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1072,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1071.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1073,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1073;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1074,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1073));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1075,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1075)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1076,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1075])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1077,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1077 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1078,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1077) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1079,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1079\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1080,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1079\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1081,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1081;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1082,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1081.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1083,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1083;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1084,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1083));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1085,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1085)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1086,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1085])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1087,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1087 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1088,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1087) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1089,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1089\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1090,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1089\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1091,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1091;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1092,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1091.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1093,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1093;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1094,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1093));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1095,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1095)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1096,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1095])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1097,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1097 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1098,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1097) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1099,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1099\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1100,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1099\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1101,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1101;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1102,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1101.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1103,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1103;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1104,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1103));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1105,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1105)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1106,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1105])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1107,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1107 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1108,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1107) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1109,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1109\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1110,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1109\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1111,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1111;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1112,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1111.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1113,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1113;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1114,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1113));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1115,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1115)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1116,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1115])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1117,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1117 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1118,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1117) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1119,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1119\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1120,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1119\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1121,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1121;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1122,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1121.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1123,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1123;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1124,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1123));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1125,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1125)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1126,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1125])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1127,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1127 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1128,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1127) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1129,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1129\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1130,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1129\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1131,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1131;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1132,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1131.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1133,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1133;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1134,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1133));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1135,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1135)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1136,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1135])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1137,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1137 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1138,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1137) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1139,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1139\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1140,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1139\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1141,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1141;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1142,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1141.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1143,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1143;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1144,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1143));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1145,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1145)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1146,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1145])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1147,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1147 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1148,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1147) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1149,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1149\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1150,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1149\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1151,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1151;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1152,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1151.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1153,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1153;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1154,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1153));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1155,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1155)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1156,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1155])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1157,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1157 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1158,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1157) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1159,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1159\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1160,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1159\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1161,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1161;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1162,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1161.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1163,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1163;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1164,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1163));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1165,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1165)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1166,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1165])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1167,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1167 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1168,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1167) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1169,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1169\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1170,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1169\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1171,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1171;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1172,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1171.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1173,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1173;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1174,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1173));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1175,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1175)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1176,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1175])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1177,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1177 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1178,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1177) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1179,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1179\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1180,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1179\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1181,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1181;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1182,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1181.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1183,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1183;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1184,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1183));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1185,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1185)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1186,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1185])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1187,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1187 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1188,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1187) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1189,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1189\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1190,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1189\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1191,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1191;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1192,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1191.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1193,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1193;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1194,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1193));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1195,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1195)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1196,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1195])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1197,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1197 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1198,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1197) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1199,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1199\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1200,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1199\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1201,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1201;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1202,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1201.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1203,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1203;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1204,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1203));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1205,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1205)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1206,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1205])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1207,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1207 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1208,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1207) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1209,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1209\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1210,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1209\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1211,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1211;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1212,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1211.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1213,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1213;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1214,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1213));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1215,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1215)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1216,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1215])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1217,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1217 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1218,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1217) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1219,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1219\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1220,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1219\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1221,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1221;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1222,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1221.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1223,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1223;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1224,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1223));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1225,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1225)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1226,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1225])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1227,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1227 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1228,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1227) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1229,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1229\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1230,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1229\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1231,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1231;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1232,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1231.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1233,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1233;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1234,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1233));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1235,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1235)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1236,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1235])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1237,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1237 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1238,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1237) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1239,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1239\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1240,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1239\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1241,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1241;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1242,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1241.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1243,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1243;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1244,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1243));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1245,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1245)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1246,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1245])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1247,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1247 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1248,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1247) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1249,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1249\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1250,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1249\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1251,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1251;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1252,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1251.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1253,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1253;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1254,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1253));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1255,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1255)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1256,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1255])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1257,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1257 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1258,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1257) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1259,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1259\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1260,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1259\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1261,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1261;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1262,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1261.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1263,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1263;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1264,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1263));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1265,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1265)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1266,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1265])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1267,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1267 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1268,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1267) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1269,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1269\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1270,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1269\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1271,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1271;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1272,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1271.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1273,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1273;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1274,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1273));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1275,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1275)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1276,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1275])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1277,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1277 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1278,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1277) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1279,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1279\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1280,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1279\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1281,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1281;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1282,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1281.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1283,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1283;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1284,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1283));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1285,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1285)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1286,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1285])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1287,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1287 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1288,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1287) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1289,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1289\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1290,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1289\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1291,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1291;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1292,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1291.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1293,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1293;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1294,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1293));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1295,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1295)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1296,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1295])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1297,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1297 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1298,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1297) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1299,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1299\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1300,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1299\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1301,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1301;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1302,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1301.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1303,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1303;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1304,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1303));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1305,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1305)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1306,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1305])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1307,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1307 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1308,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1307) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1309,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1309\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1310,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1309\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1311,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1311;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1312,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1311.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1313,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1313;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1314,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1313));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1315,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1315)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1316,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1315])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1317,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1317 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1318,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1317) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1319,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1319\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1320,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1319\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1321,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1321;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1322,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1321.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1323,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1323;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1324,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1323));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1325,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1325)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1326,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1325])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1327,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1327 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1328,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1327) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1329,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1329\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1330,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1329\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1331,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1331;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1332,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1331.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1333,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1333;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1334,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1333));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1335,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1335)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1336,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1335])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1337,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1337 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1338,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1337) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1339,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1339\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1340,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1339\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1341,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1341;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1342,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1341.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1343,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1343;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1344,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1343));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1345,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1345)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1346,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1345])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1347,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1347 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1348,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1347) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1349,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1349\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1350,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1349\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1351,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1351;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1352,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1351.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1353,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1353;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1354,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1353));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1355,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1355)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1356,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1355])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1357,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1357 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1358,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1357) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1359,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1359\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1360,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1359\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1361,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1361;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1362,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1361.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1363,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1363;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1364,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1363));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1365,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1365)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1366,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1365])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1367,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1367 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1368,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1367) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1369,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1369\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1370,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1369\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1371,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1371;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1372,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1371.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1373,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1373;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1374,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1373));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1375,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1375)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1376,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1375])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1377,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1377 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1378,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1377) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1379,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1379\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1380,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1379\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1381,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1381;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1382,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1381.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1383,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1383;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1384,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1383));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1385,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1385)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1386,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1385])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1387,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1387 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1388,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1387) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1389,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1389\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1390,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1389\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1391,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1391;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1392,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1391.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1393,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1393;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1394,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1393));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1395,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1395)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1396,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1395])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1397,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1397 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1398,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1397) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1399,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1399\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1400,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1399\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1401,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1401;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1402,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1401.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1403,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1403;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1404,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1403));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1405,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1405)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1406,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1405])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1407,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1407 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1408,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1407) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1409,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1409\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1410,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1409\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1411,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1411;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1412,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1411.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1413,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1413;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1414,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1413));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1415,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1415)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1416,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1415])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1417,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1417 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1418,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1417) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1419,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1419\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1420,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1419\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1421,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1421;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1422,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1421.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1423,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1423;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1424,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1423));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1425,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1425)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1426,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1425])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1427,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1427 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1428,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1427) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1429,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1429\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1430,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1429\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1431,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1431;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1432,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1431.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1433,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1433;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1434,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1433));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1435,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1435)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1436,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1435])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1437,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1437 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1438,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1437) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1439,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1439\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1440,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1439\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1441,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1441;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1442,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1441.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1443,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1443;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1444,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1443));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1445,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1445)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1446,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1445])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1447,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1447 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1448,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1447) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1449,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1449\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1450,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1449\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1451,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1451;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1452,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1451.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1453,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1453;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1454,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1453));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1455,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1455)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1456,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1455])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1457,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1457 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1458,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1457) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1459,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1459\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1460,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1459\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1461,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1461;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1462,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1461.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1463,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1463;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1464,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1463));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1465,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1465)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1466,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1465])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1467,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1467 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1468,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1467) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1469,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1469\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1470,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1469\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1471,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1471;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1472,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1471.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1473,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1473;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1474,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1473));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1475,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1475)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1476,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1475])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1477,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1477 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1478,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1477) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1479,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1479\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1480,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1479\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1481,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1481;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1482,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1481.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1483,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1483;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1484,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1483));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1485,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1485)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1486,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1485])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1487,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1487 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1488,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1487) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1489,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1489\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1490,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1489\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1491,
+    "code": "app.post('/exec', (req, res) => {\n  const userCmd = \"ping \" + req.body.host_1491;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "insecure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "Unsanitized input in shell command. Secure version validates input."
+  },
+  {
+    "id": 1492,
+    "code": "app.post('/exec', (req, res) => {\n  const host = req.body.host_1491.replace(/[^a-zA-Z0-9.-]/g, \"\");\n  const userCmd = \"ping \" + host;\n  require('child_process').exec(userCmd, (err, stdout) => res.send(stdout));\n});",
+    "label": "secure",
+    "vulnerability_type": "Command Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1493,
+    "code": "app.get('/open', (req, res) => {\n  const file = './public/' + req.query.name_1493;\n  res.sendFile(file);\n});",
+    "label": "insecure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "Path traversal risk. Secure version uses path sanitization."
+  },
+  {
+    "id": 1494,
+    "code": "const path = require('path');\napp.get('/open', (req, res) => {\n  const safe = path.join(__dirname, 'public', path.basename(req.query.name_1493));\n  res.sendFile(safe);\n});",
+    "label": "secure",
+    "vulnerability_type": "Path Traversal",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1495,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = \" + req.query.userId_1495)\n    .then(result => res.send(result));\n});",
+    "label": "insecure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "Unescaped user input in SQL query. Secure version uses parameterized queries."
+  },
+  {
+    "id": 1496,
+    "code": "router.get('/email', (req, res) => {\n  db.query(\"SELECT email FROM users WHERE id = ?\", [req.query.userId_1495])\n    .then(result => res.send(result));\n});",
+    "label": "secure",
+    "vulnerability_type": "SQL Injection",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1497,
+    "code": "app.get('/show', (req, res) => {\n  res.send(\"<div>\" + req.query.data_1497 + \"</div>\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "XSS",
+    "explanation": "Unescaped user input leads to XSS. Secure version escapes HTML content."
+  },
+  {
+    "id": 1498,
+    "code": "const escapeHtml = str => str.replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#039;'}[m]));\napp.get('/show', (req, res) => {\n  res.send(\"<div>\" + escapeHtml(req.query.data_1497) + \"</div>\");\n});",
+    "label": "secure",
+    "vulnerability_type": "XSS",
+    "explanation": "This is the secure version of the previous example."
+  },
+  {
+    "id": 1499,
+    "code": "app.get('/secure-area', (req, res) => {\n  res.send(\"Confidential info 1499\");\n});",
+    "label": "insecure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "Missing auth check. Secure version requires authentication."
+  },
+  {
+    "id": 1500,
+    "code": "app.get('/secure-area', (req, res) => {\n  if (!req.user || !req.user.authenticated) return res.status(401).send(\"Unauthorized\");\n  res.send(\"Confidential info 1499\");\n});",
+    "label": "secure",
+    "vulnerability_type": "Authentication Bypass",
+    "explanation": "This is the secure version of the previous example."
+  }
+]
