@@ -10353,7 +10353,11 @@
               "explanation": "Injects an unescaped URL into an `iframe`'s `src` attribute, allowing XSS via `javascript:` scheme."
             },
             {
-              "id": [2980]
+              "id": 2980,
+              "code": "const data = req.query.url;\\nconst safeData = validator.isURL(data, { protocols: ['https'] }) ? data : '#';\\nres.send(`<iframe src=\\\"${safeData}\\\"></iframe>`);",
+              "label": "secure",
+              "vulnerability_type": "XSS (Iframe Source Injection)",
+              "explanation": "Validates the URL to ensure it uses only the secure `https` protocol before injection, mitigating `javascript:` XSS."
             },
             {
               "id": 2981,
