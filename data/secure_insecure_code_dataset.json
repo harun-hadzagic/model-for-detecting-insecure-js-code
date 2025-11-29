@@ -34987,6 +34987,7 @@
   },
   {
     "id": 5089,
+    "language_id": 1,
     "code": "app.post('/vote5090',(req,res)=>{ save(req.body.choice5090); res.send('ok'); });",
     "label": "insecure",
     "vulnerability_type": "Insufficient Input Validation",
@@ -35000,3 +35001,19 @@
     "explanation": "Secure version of the previous entry."
   }
 ]
+
+// dataset explanation:
+// language_id: 1 - JavaScript, 2 - Python, 3 - Java, 4 - C++, 5 - C#, 6 - PHP, 7 - Ruby, 8 - Go, 9 - Rust, 10 - Swift, 11 - Kotlin, 12 - TypeScript, 13 - Scala, 14 - Haskell, 15 - Erlang, 16 - Elixir, 17 - Clojure, 18 - Lisp, 19 - Prolog, 20 - Scheme, 21 - Common Lisp, 22 - Emacs Lisp, 23 - Lisp, 24 - Lisp, 25 - Lisp, 26 - Lisp, 27 - Lisp, 28 - Lisp, 29 - Lisp, 30 - Lisp
+// label: 0 - insecure, 1 - secure
+// vulnerability_type: 0 - SQL Injection, 1 - Command Injection, 2 - XSS, 3 - CSRF, 4 - Open Redirect, 5 - Insecure Deserialization, 6 - Insecure File Upload, 7 - Insufficient Input Validation, 8 - Weak Cryptography, 9 - SSRF, 10 - JWT Mishandling
+// explanation: explanation of the vulnerability
+// code: code snippet
+//My dataset has the following columns 
+// id - unique identifier for the code snippet
+// language_id - language of the code snippet
+// code - code snippet
+// label - 0 - insecure, 1 - secure
+// vulnerability_type - each vulnerability type has a unique id as a number
+// explanation - explanation of the vulnerability
+// family_id - unique identifier for the family of vulnerabilities (pair of secure and insecure code snippets)
+// vulnerability_group_id - unique identifier for the groups of vulnerabilities (pairs of secure and insecure code snippets)

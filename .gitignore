@@ -1,2 +1,6 @@
-results_codebert_js/
-results_codebert_js_alternating/
+results_codebert_js_old_dataset/
+results_codebert_js_alternating_old_dataset/
+results_codebert_js_new_dataset/
+
+*.npz
+

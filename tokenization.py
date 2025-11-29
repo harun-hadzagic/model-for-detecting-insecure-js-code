@@ -5,9 +5,9 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 # --- Configuration ---
-JSON_FILE = 'data/secure_insecure_code_dataset.json'
+JSON_FILE = 'data/js_dataset.json'
 MODEL_NAME = 'microsoft/codebert-base' # Pre-trained model known for code analysis
-MAX_LENGTH = 256 # Max tokens per snippet. Adjust based on your code length distribution.
+MAX_LENGTH = 512 # Max tokens per snippet. Adjust based on your code length distribution.
 
 # --- Data Loading and Preprocessing ---
 
@@ -138,9 +138,9 @@ if __name__ == '__main__':
     # --- Next Step: Save to NumPy files for ML training ---
     
     # Save the tokenized data for use in your TensorFlow or PyTorch model
-    np.savez('train_data.npz', **train_tokens)
-    np.savez('val_data.npz', **val_tokens)
-    np.savez('test_data.npz', **test_tokens)
+    np.savez('train_data_new_dataset.npz', **train_tokens)
+    np.savez('val_data_new_dataset.npz', **val_tokens)
+    np.savez('test_data_new_dataset.npz', **test_tokens)
     
     print("\n✅ Tokenization and splitting complete.")
-    print("Data saved to: train_data.npz, val_data.npz, test_data.npz")
+    print("Data saved to: train_data_new_dataset.npz, val_data_new_dataset.npz, test_data_new_dataset.npz")

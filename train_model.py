@@ -85,7 +85,7 @@ def train_codebert_classifier():
         num_train_epochs=5,                          # Start with 5 epochs for fine-tuning
         per_device_train_batch_size=8,             # Adjust based on your available RAM/GPU memory
         per_device_eval_batch_size=16,             
-        warmup_steps=500,                            
+        warmup_steps=2000,                            
         weight_decay=0.01,                           
         learning_rate=5e-5,                          # Standard learning rate for fine-tuning CodeBERT
         logging_steps=50,                            
