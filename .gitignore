@@ -1,6 +1,14 @@
 results_codebert_js_old_dataset/
 results_codebert_js_alternating_old_dataset/
 results_codebert_js_new_dataset/
+results_codebert_js_full_regularized/
+results_codebert_js_sample_regularized/
+results_codebert_js_sample/
+results_codebert_js_alternating/
+results_codebert_js_old_dataset/
+results_codebert_js_alternating_old_dataset/
+results_codebert_js_new_dataset/
+results_codebert_js_full_regularized/
 
 *.npz
 

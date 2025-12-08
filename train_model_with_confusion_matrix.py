@@ -15,7 +15,7 @@ warnings.filterwarnings('ignore', category=UserWarning)
 # --- Configuration ---
 MODEL_NAME = 'microsoft/codebert-base'
 NUM_LABELS = 2 # 0: Secure, 1: Insecure
-OUTPUT_DIR = './results_codebert_js_new_dataset' # Directory where model checkpoints will be saved
+OUTPUT_DIR = './results_codebert_js3' # Directory where model checkpoints will be saved
 LOGGING_DIR = './logs'
 CM_PATH = './confusion_matrix.png' # Path to save the confusion matrix image
 
@@ -84,8 +84,8 @@ def plot_confusion_matrix(labels, preds, path):
 def train_codebert_classifier():
     # Load tokenized datasets
     print("--- Loading Tokenized Data ---")
-    train_dataset = load_npz_data('train_data_new_dataset.npz')
-    val_dataset = load_npz_data('val_data_new_dataset.npz')
+    train_dataset = load_npz_data('train_data.npz')
+    val_dataset = load_npz_data('val_data.npz')
     
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -126,7 +126,7 @@ def train_codebert_classifier():
     # To use the trained model, we must load the best one.
     
     print("\n--- Loading Trained Model for Evaluation ---")
-    best_model_path = f"{OUTPUT_DIR}/final_best_model_new_dataset"
+    best_model_path = f"{OUTPUT_DIR}/final_best_model"
     if not os.path.exists(best_model_path):
         print(f"Model checkpoint not found at {best_model_path}. Re-running full training.")
         trainer.train()
@@ -138,7 +138,7 @@ def train_codebert_classifier():
     
     # --- Final Evaluation on Test Set ---
     print("\n--- Generating Predictions on Test Set ---")
-    test_dataset = load_npz_data('test_data_new_dataset.npz')
+    test_dataset = load_npz_data('test_data.npz')
     
     # Use trainer.predict to get predictions (logits) and true labels
     predictions_output = trainer.predict(test_dataset)
